@@ -170,7 +170,7 @@ function format_Number($number)
 <body>
     <section class="wrapper">
         <div class="container">
-            <h2 class="title">Vat App Calculator</h2>
+            <h2 class="title">Công cụ tính thuế VAT</h2>
             <form action="" method="POST" id="form">
                 <label>Nhập số tiền (đ): </label>
                 <input type="text" name="money" value="<?php echo ($money) ? format_Number($money) : null ?>" placeholder="Nhập số tiền (đ)" class="input-number" onkeyup="javascript:this.value=Comma(this.value)">
@@ -186,9 +186,9 @@ function format_Number($number)
                     <input type="radio" name="optVat" value="optVat2" <?= ($optVat != 'optVat1') ? 'checked'  : '' ?>>
                     <label>Số tiền đã có VAT (tính thuế VAT ngược)</label>
                 </div>
-                <button type="submit" name="submit">Thực hiện</button>
+                <button type="submit" class="btn-submit" name="submit">Thực hiện</button>
             </form>
-            <?php if ($optVat == 'optVat1') : ?>
+            <?php if (isset($_POST["submit"]) && $optVat == 'optVat1') : ?>
                 <div class="noti">
                     <p> Số tiền chưa thuế: <?= ($money != '') ? format_Number($money) : null ?></p>
                     <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number($vat_money) : null ?></p>
@@ -197,7 +197,7 @@ function format_Number($number)
                         <p class="noti-money"><?= convert_number_to_words($result_money); ?></p>
                     </span>
                 </div>
-            <?php elseif ($optVat == 'optVat2') : ?>
+            <?php elseif (isset($_POST["submit"]) && $optVat == 'optVat2') : ?>
                 <div class="noti">
                     <p> Số tiền chưa thuế: <?= ($result_money != '') ? format_Number(round($result_money)) : null ?></p>
                     <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number(round($vat_money)) : null ?></p>
@@ -230,6 +230,8 @@ function format_Number($number)
                 x1 = x1.replace(rgx, '$1' + ',' + '$2');
             return x1 + x2;
         }
+
+        // 
     </script>
 </body>
 
