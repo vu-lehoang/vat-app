@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>App Vat Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <?php
 /**
@@ -28,7 +29,7 @@ function convert_number_to_words($number)
     $conjunction = '  ';
     $separator   = ' ';
     $negative    = 'âm ';
-    $decimal     = ' phẩy';
+    $decimal     = ' phẩy ';
     $dictionary  = array(
         0                   => 'Không',
         1                   => 'Một',
@@ -154,8 +155,8 @@ if (isset($_POST['submit'])) {
     } else {
         $money = filter_var($_POST['money'], FILTER_SANITIZE_NUMBER_FLOAT);
         if (is_numeric($money) && is_numeric($vat)) {
-            $result_money = (float($money) * 100) / ($vat + 100);
-            $vat_money = float($money) - $result_money;
+            $result_money = (($money) * 100) / ($vat + 100);
+            $vat_money = ($money) - $result_money;
         }
     }
 }
@@ -166,31 +167,70 @@ function format_Number($number)
 }
 ?>
 
-
 <body>
-    <form action="" method="POST">
-        <input type="text" name="money" value="<?php echo ($money) ? format_Number($money) : null ?>">
-        <input type="text" name="vat" value="<?php echo ($vat) ? format_Number($vat) : null ?>">
-        <br>
-        <input type="radio" name="optVat" value="optVat1" <?= ($optVat == 'optVat1') ? 'checked'  : '' ?>>Số tiền chưa có thuế VAT (tính thuế VAT xuôi)<br>
-        <input type="radio" name="optVat" value="optVat2" <?= ($optVat != 'optVat1') ? 'checked'  : '' ?>>Số tiền đã có VAT (tính thuế VAT ngược) <br>
-        <button type="submit" name="submit">Thực hiện</button>
-    </form>
-    <?php if ($optVat == 'optVat1') : ?>
-        <p> Số tiền chưa thuế: <?= ($money != '') ? $money : null ?></p>
-        <p> Số tiền thuế: <?= ($vat_money != "") ? $vat_money : null ?></p>
-        <p> Số tiền sau thuế: <?= ($result_money != "") ? $result_money : null ?></p>
-        <p> Bằng chữ: <?= convert_number_to_words($result_money); ?></p>
-    <?php elseif ($optVat == 'optVat2') : ?>
-        <p> Số tiền chưa thuế: <?= ($result_money != '') ? round($result_money) : null ?></p>
-        <p> Số tiền thuế: <?= ($vat_money != "") ? round($vat_money) : null ?></p>
-        <p> Số tiền sau thuế: <?= ($money != "") ? round($money)  : null ?></p>
-        <p> Bằng chữ: <span><?= convert_number_to_words($money); ?></span></p>
-    <?php endif ?>
-    <?php
-    $abc = convert_number_to_words($money);
-    var_dump($abc);
-    ?>
+    <section class="wrapper">
+        <div class="container">
+            <h2 class="title">Vat App Calculator</h2>
+            <form action="" method="POST" id="form">
+                <label>Nhập số tiền (đ): </label>
+                <input type="text" name="money" value="<?php echo ($money) ? format_Number($money) : null ?>" placeholder="Nhập số tiền (đ)" class="input-number" onkeyup="javascript:this.value=Comma(this.value)">
+
+                <label>Thuế VAT (%):</label>
+                <input type="text" name="vat" value="<?php echo ($vat) ? format_Number($vat) : 10 ?>" placeholder="Thuế VAT (%)">
+
+                <div class="form-group">
+                    <input type="radio" name="optVat" value="optVat1" <?= ($optVat == 'optVat1') ? 'checked'  : '' ?>>
+                    <label>Số tiền chưa có thuế VAT (tính thuế VAT xuôi)</label>
+                </div>
+                <div class="form-group">
+                    <input type="radio" name="optVat" value="optVat2" <?= ($optVat != 'optVat1') ? 'checked'  : '' ?>>
+                    <label>Số tiền đã có VAT (tính thuế VAT ngược)</label>
+                </div>
+                <button type="submit" name="submit">Thực hiện</button>
+            </form>
+            <?php if ($optVat == 'optVat1') : ?>
+                <div class="noti">
+                    <p> Số tiền chưa thuế: <?= ($money != '') ? format_Number($money) : null ?></p>
+                    <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number($vat_money) : null ?></p>
+                    <p> Số tiền sau thuế: <?= ($result_money != "") ? format_Number($result_money) : null ?></p>
+                    <span> Bằng chữ:
+                        <p class="noti-money"><?= convert_number_to_words($result_money); ?></p>
+                    </span>
+                </div>
+            <?php elseif ($optVat == 'optVat2') : ?>
+                <div class="noti">
+                    <p> Số tiền chưa thuế: <?= ($result_money != '') ? format_Number(round($result_money)) : null ?></p>
+                    <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number(round($vat_money)) : null ?></p>
+                    <p> Số tiền sau thuế: <?= ($money != "") ? format_Number(round($vat_money))  : null ?></p>
+                    <span> Bằng chữ:
+                        <p class="noti-money"><?= convert_number_to_words($money); ?></p>
+                    </span>
+                </div>
+            <?php endif ?>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-info">Duy trì và thiết kế bởi <a href="https://minhduy.vn"> Minh Duy.vn</a></div>
+    </footer>
+
+    <script>
+        function Comma(Num) { //function to add commas to textboxes
+            Num += '';
+            Num = Num.replace(',', '');
+            Num = Num.replace('.', '');
+            Num = Num.replace('.', '');
+            Num = Num.replace(',', '');
+            Num = Num.replace('.', '');
+            Num = Num.replace('.', '');
+            x = Num.split(',');
+            x1 = x[0];
+            x2 = x.length > 1 ? ',' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1))
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            return x1 + x2;
+        }
+    </script>
 </body>
 
 

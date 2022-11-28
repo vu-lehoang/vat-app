@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+body {
+  font-size: 16px;
+  background-color: #003283;
+  height: 100vh;
+  color: #fff;
+}
+a {
+  text-decoration: none;
+}
+input {
+  width: 100%;
+  padding: 5px 10px;
+  outline: none;
+  border: 0;
+}
+.wrapper {
+  max-width: 96%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.container {
+  display: block;
+  width: 1000px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: #003283;
+  text-align: center;
+}
+/* FORM */
+.title {
+  font-size: 32px;
+  margin: 20px 0;
+}
+#form {
+  margin: 20px auto;
+}
+#form label {
+  text-align: left;
+  display: block;
+  font-size: 18px;
+}
+#form input {
+  padding: 15px 20px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+#form .form-group {
+  display: flex;
+  gap: 10px;
+}
+#form .form-group input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  padding: unset;
+  margin: unset;
+  margin-bottom: 10px;
+}
+#form button {
+  display: block;
+  min-width: 120px;
+  background-color: #fff;
+  color: #003283;
+  padding: 20px;
+  margin: 0 auto;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s linear;
+}
+#form button:hover {
+  letter-spacing: 3px;
+  box-shadow: inset 3px 4px 4px rgba(0, 0, 0, 0.3);
+}
+.noti {
+  width: 1000px;
+  max-width: 100%;
+  text-align: left;
+}
+.noti p {
+  letter-spacing: 1.2px;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+.noti span {
+  font-size: 18px;
+}
+.noti-money {
+  display: inline;
+  text-transform: lowercase;
+}
+.noti-money::first-letter {
+  text-transform: uppercase !important;
+}
+/* footer */
+footer.footer {
+  position: fixed;
+  bottom: 0;
+  height: 50px;
+  background-color: #fff;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  color: #222;
+  font-size: 18px;
+}
+footer.footer .footer-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+footer.footer .footer-info a {
+  color: #40c8f4;
+  margin: 0 5px;
+}
