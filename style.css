@@ -61,6 +61,7 @@ input {
 }
 #form .form-group input[type="radio"] {
   width: 20px;
+  cursor: pointer;
   height: 20px;
   padding: unset;
   margin: unset;
@@ -97,10 +98,13 @@ input {
   font-size: 18px;
 }
 .noti span {
+  display: flex;
+  gap: 5px;
   font-size: 18px;
+  flex-wrap: wrap;
 }
 .noti-money {
-  display: inline;
+  display: block;
   text-transform: lowercase;
 }
 .noti-money::first-letter {

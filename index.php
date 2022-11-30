@@ -9,18 +9,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <?php
-/**
- * checked option 1 
- * Thêm dấu phẩy sau mỗi 4 chữ số
- * tính vat xuôi 
- * số tiền chưa thuế: số tiền nhập vào
- * số tiền thuế: số tiền nhập vào * số thuế
- * số tiền sau thuế : số tiền chưa thế + số tiền thuế
- * 
- * tinh vat nguoc
- * số tiền trước thuế : (số tiền nhập vào * 100 ) / 100 + vat
- * Số tiền thuế: Số tiền nhập vào - số tiền trước thuế
- */
+ini_set('display_errors', 'Off');
+// ini_set('error_reporting', E_ALL);
 
 function convert_number_to_words($number)
 {
@@ -59,6 +49,7 @@ function convert_number_to_words($number)
         70                  => 'Bảy mươi',
         80                  => 'Tám mươi',
         90                  => 'Chín mươi',
+        95                  => 'Chín mươi lăm',
         100                 => 'trăm',
         1000                => 'ngàn',
         1000000             => 'triệu',
@@ -143,17 +134,20 @@ if (isset($_POST['submit'])) {
     if ($optVat == 'optVat1') {
 
         $money = filter_var($_POST['money'], FILTER_SANITIZE_NUMBER_FLOAT);
+        // $money = $_POST['money'];
         if (is_numeric($money) && is_numeric($vat)) {
             $vat_money = floatval($money) * $vat / 100;
             $result_money = floatval($money) + $vat_money;
-        } else {
-            $vat_money = 0;
-            $result_money = 0;
-            $vat = 0;
-            $money = 0;
         }
+        // } else {
+        //     $vat_money = 0;
+        //     $result_money = 0;
+        //     $vat = 0;
+        //     $money = 0;
+        // }
     } else {
         $money = filter_var($_POST['money'], FILTER_SANITIZE_NUMBER_FLOAT);
+        // $money = $_POST['money'];
         if (is_numeric($money) && is_numeric($vat)) {
             $result_money = (($money) * 100) / ($vat + 100);
             $vat_money = ($money) - $result_money;
@@ -189,23 +183,36 @@ function format_Number($number)
                 <button type="submit" class="btn-submit" name="submit">Thực hiện</button>
             </form>
             <?php if (isset($_POST["submit"]) && $optVat == 'optVat1') : ?>
-                <div class="noti">
-                    <p> Số tiền chưa thuế: <?= ($money != '') ? format_Number($money) : null ?></p>
-                    <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number($vat_money) : null ?></p>
-                    <p> Số tiền sau thuế: <?= ($result_money != "") ? format_Number($result_money) : null ?></p>
-                    <span> Bằng chữ:
-                        <p class="noti-money"><?= convert_number_to_words($result_money); ?></p>
-                    </span>
-                </div>
+                <?php if ($money) : ?>
+                    <div class="noti">
+                        <p> Số tiền chưa thuế: <?= ($money != '') ? format_Number(round($money))  : null ?></p>
+                        <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number(round($vat_money)) : null ?></p>
+                        <p> Số tiền sau thuế: <?= ($result_money != "") ? format_Number(round($result_money)) : null ?></p>
+                        <span> Bằng chữ:
+                            <p class="noti-money"><?= convert_number_to_words(round($result_money)) . ' đồng'; ?></p>
+                        </span>
+                    </div>
+                <?php else : ?>
+                    <div class="noti">
+                        <?php echo '<p>Vui lòng nhập dữ liệu</p>'; ?>
+                    </div>
+                <?php endif; ?>
             <?php elseif (isset($_POST["submit"]) && $optVat == 'optVat2') : ?>
-                <div class="noti">
-                    <p> Số tiền chưa thuế: <?= ($result_money != '') ? format_Number(round($result_money)) : null ?></p>
-                    <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number(round($vat_money)) : null ?></p>
-                    <p> Số tiền sau thuế: <?= ($money != "") ? format_Number(round($vat_money))  : null ?></p>
-                    <span> Bằng chữ:
-                        <p class="noti-money"><?= convert_number_to_words($money); ?></p>
-                    </span>
-                </div>
+                <?php if ($money) : ?>
+                    <div class="noti">
+                        <p> Số tiền chưa thuế: <?= ($result_money != '') ? format_Number(round($result_money)) : null ?></p>
+                        <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number(round($vat_money)) : null ?></p>
+                        <p> Số tiền sau thuế: <?= ($money != "") ? format_Number(round($money))  : null ?></p>
+                        <span>Số tiền sau thuế bằng chữ:
+
+                            <p class="noti-money"><?= convert_number_to_words(round($money)) . ' đồng'; ?></p>
+                        </span>
+                    </div>
+                <?php else : ?>
+                    <div class="noti">
+                        <?php echo '<p>Vui lòng nhập dữ liệu</p>'; ?>
+                    </div>
+                <?php endif; ?>
             <?php endif ?>
         </div>
     </section>
@@ -230,8 +237,6 @@ function format_Number($number)
                 x1 = x1.replace(rgx, '$1' + ',' + '$2');
             return x1 + x2;
         }
-
-        // 
     </script>
 </body>
 
