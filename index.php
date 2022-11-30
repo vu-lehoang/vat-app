@@ -199,6 +199,7 @@ function format_Number($number)
                     </div>
                 <?php endif; ?>
             <?php elseif (isset($_POST["submit"]) && $optVat == 'optVat2') : ?>
+
                 <?php if ($money) : ?>
                     <div class="noti">
                         <p> Số tiền chưa thuế: <?= ($result_money != '') ? format_Number(round($result_money)) : null ?></p>
@@ -214,25 +215,7 @@ function format_Number($number)
                         <?php echo '<p>Vui lòng nhập dữ liệu</p>'; ?>
                     </div>
                 <?php endif; ?>
-                <div class="noti">
-                    <p> Số tiền chưa thuế: <?= ($money != '') ? format_Number(round($money)) : null ?></p>
-                    <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number(round($vat_money)) : null ?></p>
-                    <p> Số tiền sau thuế: <?= ($result_money != "") ? format_Number(round($result_money)) : null ?></p>
-                    <span> Bằng chữ:
-                        <p class="noti-money"><?= convert_number_to_words(round($result_money)); ?></p>
-                    </span>
-                </div>
-            <?php elseif (isset($_POST["submit"]) && $optVat == 'optVat2') : ?>
-                <div class="noti">
-                    <p> Số tiền chưa thuế: <?= ($result_money != '') ? format_Number(round($result_money)) : null ?></p>
-                    <p> Số tiền thuế: <?= ($vat_money != "") ? format_Number(round($vat_money)) : null ?></p>
-                    <p> Số tiền sau thuế: <?= ($money != "") ? format_Number(round($money))  : null ?></p>
-                    <span> Bằng chữ:
-                        <p class="noti-money"><?= convert_number_to_words(round($money)); ?></p>
-                    </span>
-                </div>
-
-            <?php endif ?>
+            <?php endif; ?>
         </div>
     </section>
     <footer class="footer">
